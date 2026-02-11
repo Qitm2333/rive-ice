@@ -58,7 +58,7 @@ function App() {
   const [isWaiting, setIsWaiting] = useState(false) // 等待动画播放
 
   const { rive, RiveComponent } = useRive({
-    src: '/torras_ice_cube.riv',
+    src: './torras_ice_cube.riv',
     stateMachines: 'State Machine 1',
     autoplay: true,
   })

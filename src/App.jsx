@@ -127,26 +127,26 @@ function App() {
           onClick={() => fireInput(welcomeInput, 'Welcome', 0)} 
           disabled={currentStep !== 0 || isWaiting}
           style={{ opacity: currentStep === 0 ? 1 : 0.4 }}
-        >Welcome</button>
+        >插入插头</button>
         <button 
           onClick={() => fireInput(chargingInput, 'Charging', 1)} 
           disabled={currentStep !== 1 || isWaiting}
           style={{ opacity: currentStep === 1 ? 1 : 0.4 }}
-        >Charging</button>
+        >连接手机</button>
         <button 
           onClick={() => fireInput(chargingLongTimeInput, 'ChargingLongTime', 2)} 
           disabled={currentStep !== 2 || isWaiting}
           style={{ opacity: currentStep === 2 ? 1 : 0.4 }}
-        >ChargingLongTime</button>
+        >等待充电</button>
         <button 
           onClick={() => fireInput(outInput, 'Out', 3)} 
           disabled={currentStep !== 3 || isWaiting}
           style={{ opacity: currentStep === 3 ? 1 : 0.4 }}
-        >Out</button>
+        >拔掉手机</button>
         <button 
           onClick={handleReset}
           style={{ marginLeft: '20px' }}
-        >重置</button>
+        >拔出插头</button>
       </div>
 
       <button className="debug-toggle" onClick={() => setShowDebug(!showDebug)}>

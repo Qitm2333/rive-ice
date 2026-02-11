@@ -1,0 +1,126 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+.background-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #879eb3;
+  background-image: url('/image.png');
+  background-repeat: no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.rive-container {
+  width: 500px;
+  height: 500px;
+}
+
+.controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 100;
+}
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: white;
+  transition: background 0.2s;
+}
+
+.controls button:hover {
+  background: #333;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .controls {
+    bottom: 20px;
+    gap: 8px;
+    padding: 0 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .controls button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+.debug-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: #333;
+  color: white;
+}
+
+.debug-panel {
+  position: fixed;
+  top: 50px;
+  right: 10px;
+  width: 280px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 1000;
+  font-size: 13px;
+}
+
+.debug-panel h3 {
+  margin: 10px 0 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+
+.debug-panel h3:first-child {
+  margin-top: 0;
+}
+
+.debug-panel label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.debug-panel input[type="range"] {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.debug-output {
+  margin-top: 15px;
+  padding: 10px;
+  background: #222;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.debug-output code {
+  color: #0f0;
+}

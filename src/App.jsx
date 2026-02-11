@@ -53,6 +53,9 @@ function App() {
   const actualBgPosY = isMobile ? mobileBgPosY : bgPosY
 
   const [showRive, setShowRive] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0) // 0: Welcome, 1: Charging, 2: ChargingLongTime, 3: Out
+  const [riveKey, setRiveKey] = useState(0) // 用于强制重置Rive
+  const [isWaiting, setIsWaiting] = useState(false) // 等待动画播放
 
   const { rive, RiveComponent } = useRive({
     src: '/torras_ice_cube.riv',
@@ -65,12 +68,29 @@ function App() {
   const chargingInput = useStateMachineInput(rive, 'State Machine 1', 'Charging')
   const welcomeInput = useStateMachineInput(rive, 'State Machine 1', 'Welcome')
 
-  const fireInput = (input, name) => {
-    if (input) {
+  const fireInput = (input, name, step) => {
+    if (input && currentStep === step && !isWaiting) {
       setShowRive(true)
       input.fire()
+      setIsWaiting(true)
       console.log(`${name} fired`)
+      
+      // 3秒后才能点击下一个
+      setTimeout(() => {
+        if (step === 3) {
+          setCurrentStep(1)
+        } else {
+          setCurrentStep(step + 1)
+        }
+        setIsWaiting(false)
+      }, 3000)
     }
+  }
+  
+  const handleReset = () => {
+    setCurrentStep(0)
+    setShowRive(false)
+    setRiveKey(prev => prev + 1) // 强制重新加载Rive
   }
 
 
@@ -99,14 +119,34 @@ function App() {
           pointerEvents: showRive ? 'auto' : 'none'
         }}
       >
-        <RiveComponent />
+        <RiveComponent key={riveKey} />
       </div>
       
       <div className="controls">
-        <button onClick={() => fireInput(welcomeInput, 'Welcome')}>Welcome</button>
-        <button onClick={() => fireInput(chargingInput, 'Charging')}>Charging</button>
-        <button onClick={() => fireInput(chargingLongTimeInput, 'ChargingLongTime')}>ChargingLongTime</button>
-        <button onClick={() => fireInput(outInput, 'Out')}>Out</button>
+        <button 
+          onClick={() => fireInput(welcomeInput, 'Welcome', 0)} 
+          disabled={currentStep !== 0 || isWaiting}
+          style={{ opacity: currentStep === 0 ? 1 : 0.4 }}
+        >Welcome</button>
+        <button 
+          onClick={() => fireInput(chargingInput, 'Charging', 1)} 
+          disabled={currentStep !== 1 || isWaiting}
+          style={{ opacity: currentStep === 1 ? 1 : 0.4 }}
+        >Charging</button>
+        <button 
+          onClick={() => fireInput(chargingLongTimeInput, 'ChargingLongTime', 2)} 
+          disabled={currentStep !== 2 || isWaiting}
+          style={{ opacity: currentStep === 2 ? 1 : 0.4 }}
+        >ChargingLongTime</button>
+        <button 
+          onClick={() => fireInput(outInput, 'Out', 3)} 
+          disabled={currentStep !== 3 || isWaiting}
+          style={{ opacity: currentStep === 3 ? 1 : 0.4 }}
+        >Out</button>
+        <button 
+          onClick={handleReset}
+          style={{ marginLeft: '20px' }}
+        >重置</button>
       </div>
 
       <button className="debug-toggle" onClick={() => setShowDebug(!showDebug)}>
